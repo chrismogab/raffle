@@ -6,17 +6,17 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
 !developmentChains.includes(network.name)
     ? describe.skip
     : describe("Raffle Unit Tests", async function () {
-          let raffle, vrfCoordinatorV2Mock, raffleEntranceFee, player
+          let raffle, vrfCoordinatorV2Mock, raffleEntranceFee, deployer
           const chainId = network.config.chainId
+
           beforeEach(async function () {
-              const { deployer } = await getNamedAccounts()
+              deployer = (await getNamedAccounts()).deployer
               await deployments.fixture(["all"])
               raffle = await ethers.getContract("Raffle")
               vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
               raffleEntranceFee = await raffle.getEntranceFee()
-              player = accounts[1]
-              // eza ma zabatet lgetcontract jarreb l getcontractat
           })
+
           describe("constructor", async function () {
               it("Initializes the raffle correctly", async function () {
                   //ideallly we make our tests have just 1 assert per "it"
@@ -36,7 +36,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
               it("records players when they enter", async function () {
                   await raffle.enterRaffle({ value: raffleEntranceFee })
                   const playerFromContract = await raffle.getPlayer(0)
-                  assert.equal(player.address, playerFromContract)
+                  assert.equal(deployer, playerFromContract)
                   //hay yaane l player should be deployer
               })
           })
