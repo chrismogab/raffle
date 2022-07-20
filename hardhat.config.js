@@ -44,4 +44,15 @@ module.exports = {
             default: 1,
         },
     },
+    mocha: {
+        timeout: 500000, // 500 seconds max for running tests
+    },
+    etherscan: {
+        // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
+        apiKey: {
+            rinkeby: ETHERSCAN_API_KEY,
+            goerli: ETHERSCAN_API_KEY,
+            // polygon: POLYGONSCAN_API_KEY,
+        },
+    },
 }
